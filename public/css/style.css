@@ -1,0 +1,14 @@
+.everything {
+  text-align: center;
+  padding: 5% 20% 0 20%
+}
+
+.list {
+  padding: 5% 30% 0 30%
+}
+
+.input-text {
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: cursive;
+}
