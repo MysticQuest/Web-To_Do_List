@@ -15,17 +15,25 @@
       <h1>It is <%=kindOfDay%></h1>
 
       <form class="" action="/" method="post">
-        <input type="text" name="newItem" value="">
-        <button type="submit" name="button">Add</button>
+
+        <div class="input-group mb-3 form-input">
+          <input type="text" class="form-control" placeholder="Add a Task" aria-label="Task" aria-describedby="basic-addon2" name="newItem">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Add Task</button>
+          </div>
+        </div>
+
       </form>
+
+
 
       <div class="container-fluid list">
 
-
+        <h2>List:</h2>
         <ul class="list-group">
 
           <% for (var i=0; i<newListItems.length; i++) { %>
-          <li class="list-group-item input-text"> <%= newListItems[i] %></li>
+          <li class="list-group-item input-text text-wrap"><%= newListItems[i]%></li>
           <% } %>
 
         </ul>

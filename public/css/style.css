@@ -4,11 +4,19 @@
 }
 
 .list {
-  padding: 5% 30% 0 30%
+  padding: 1% 30% 0 30%;
+  word-wrap: normal;
+  word-break: break-all;
 }
 
 .input-text {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 400;
   font-family: cursive;
 }
+
+.form-input {
+  padding: 5% 30% 0 30%;
+}
+
+/*word-break: break-all;
