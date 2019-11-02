@@ -25,7 +25,7 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", options, function(err) 
   if (err) {
     console.log(err + " - FAILED TO CONNECT");
   } else {
-    console.log("connection to DB successful");
+    console.log("Connection to DB successful");
   }
 });
 
@@ -38,57 +38,49 @@ const itemsSchema = {
 
 const Item = mongoose.model("item", itemsSchema);
 
-const item1 = new Item({
-  name: "Lalallalalal"
-});
-
-const item2 = new Item({
-  name: "Xixixiixixixi"
-});
-
-const defaultItems = [item1, item2]
-
-/*Item.insertMany(defaultItems, function(err) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Items added");
-  }
-});*/
-
-Item.find({}, function(err, results) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(results);
-  }
-});
-
 //routes
 
 app.get("/", function(req, res) {
 
   const day = date.getDate();
 
-  res.render("list", {
-    listTitle: day,
-    newListItems: items
+  Item.find({}, function(err, results) {
+    res.render("list", {
+      listTitle: day,
+      newListItems: results
+    });
   });
-
 });
+
+
 
 app.post("/", function(req, res) {
 
-  const item = req.body.newItem;
-
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
+  const itemName = req.body.newItem;
+  if (itemName.length > 2) {
+    const item = new Item({
+      name: itemName,
+    });
+    item.save();
+    console.log("Item saved successfully!");
     res.redirect("/");
+  } else {
+    console.log("Please enter something valid");
   }
 });
+
+app.post("/delete",
+  function(req, res) {
+    const checkedItemID = req.body.checkbox;
+    Item.findByIdAndRemove(checkedItemID, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/");
+        console.log("Item deleted succcessfully");
+      }
+    });
+  });
 
 app.get("/work", function(req, res) {
   res.render("list", {
