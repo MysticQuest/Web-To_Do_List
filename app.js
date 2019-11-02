@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const date = require(__dirname + "/date.js");
 
 const app = express();
@@ -13,8 +14,57 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-const items = [];
-const workItems = [];
+//DB CONNECT
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}
+
+mongoose.connect("mongodb://localhost:27017/todolistDB", options, function(err) {
+  if (err) {
+    console.log(err + " - FAILED TO CONNECT");
+  } else {
+    console.log("connection to DB successful");
+  }
+});
+
+const itemsSchema = {
+  name: {
+    type: String,
+    required: [true, "Error - Blank Entry"]
+  }
+};
+
+const Item = mongoose.model("item", itemsSchema);
+
+const item1 = new Item({
+  name: "Lalallalalal"
+});
+
+const item2 = new Item({
+  name: "Xixixiixixixi"
+});
+
+const defaultItems = [item1, item2]
+
+/*Item.insertMany(defaultItems, function(err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Items added");
+  }
+});*/
+
+Item.find({}, function(err, results) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(results);
+  }
+});
+
+//routes
 
 app.get("/", function(req, res) {
 
